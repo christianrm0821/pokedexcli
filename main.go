@@ -2,7 +2,10 @@ package main
 
 import (
 	"bufio"
+	"encoding/json"
 	"fmt"
+	"io"
+	"net/http"
 	"os"
 	"strings"
 )
@@ -29,14 +32,61 @@ func describeCommands() error {
 }
 
 func mapLookUp() error {
-	return fmt.Errorf("")
+	res, err := http.Get("https://pokeapi.co/api/v2/location-area")
+	if err != nil {
+		return fmt.Errorf("error with get request: %w", err)
+	}
+	defer res.Body.Close()
 
+	bytes, err2 := io.ReadAll(res.Body)
+	if err2 != nil {
+		return fmt.Errorf("error reading res.body: %w", err2)
+	}
+
+	mapLocations := MapStruct{}
+
+	err = json.Unmarshal(bytes, &mapLocations)
+	if err != nil {
+		return fmt.Errorf("error with unmarshal/creating request: %w", err)
+	}
+
+	return fmt.Errorf("")
+}
+
+func getUrl(config *config) string {
+	return ""
 }
 
 type cliCommand struct {
 	name        string
 	description string
 	callback    func() error
+	config      *config
+}
+
+type Location struct {
+	Name string
+	URL  string
+}
+
+type Named struct {
+	Count    int
+	Next     string
+	Previous *string
+	Results  []struct {
+		Name string
+		URL  string
+	}
+}
+
+type config struct {
+	Next     string
+	Previous *string
+}
+
+type MapStruct struct {
+	Location Location
+	Named    Named
 }
 
 var commandMap map[string]cliCommand
@@ -47,16 +97,19 @@ func init() {
 			name:        "exit",
 			description: "Exit the pokedex",
 			callback:    commandExit,
+			config:      *config,
 		},
 		"help": {
 			name:        "help",
 			description: "Gives description of all commands",
 			callback:    describeCommands,
+			config:      *config,
 		},
 		"map": {
 			name:        "map",
 			description: "displays the names of 20 location areas in the Pokemon world",
 			callback:    mapLookUp,
+			config:      *config,
 		},
 	}
 }
@@ -73,8 +126,6 @@ func main() {
 			} else {
 				fmt.Println("Unknown command")
 			}
-			//firstWord := input[0]
-			//fmt.Printf("Your command was: %v", firstWord)
 		}
 
 	}
