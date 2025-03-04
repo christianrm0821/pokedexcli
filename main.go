@@ -2,10 +2,10 @@ package main
 
 import (
 	"bufio"
-	"encoding/json"
+	//	"encoding/json"
 	"fmt"
-	"io"
-	"net/http"
+	//	"io"
+	//	"net/http"
 	"os"
 	"strings"
 )
@@ -13,44 +13,6 @@ import (
 func cleanInput(text string) []string {
 	mySlice := strings.Fields(strings.ToLower(text))
 	return mySlice
-}
-
-func commandExit() error {
-	fmt.Println("Closing the Pokedex... Goodbye!")
-	os.Exit(0)
-	return fmt.Errorf("Closing the Pokedex... Goodbye!")
-}
-
-func describeCommands() error {
-	fmt.Println("Welcome to the Pokedex!")
-	fmt.Println("Usage:")
-	fmt.Println()
-	for key, val := range commandMap {
-		fmt.Printf("%v: %v\n", key, val.description)
-	}
-	return fmt.Errorf("")
-}
-
-func mapLookUp() error {
-	res, err := http.Get("https://pokeapi.co/api/v2/location-area")
-	if err != nil {
-		return fmt.Errorf("error with get request: %w", err)
-	}
-	defer res.Body.Close()
-
-	bytes, err2 := io.ReadAll(res.Body)
-	if err2 != nil {
-		return fmt.Errorf("error reading res.body: %w", err2)
-	}
-
-	mapLocations := MapStruct{}
-
-	err = json.Unmarshal(bytes, &mapLocations)
-	if err != nil {
-		return fmt.Errorf("error with unmarshal/creating request: %w", err)
-	}
-
-	return fmt.Errorf("")
 }
 
 func getUrl(config *config) string {
@@ -97,19 +59,16 @@ func init() {
 			name:        "exit",
 			description: "Exit the pokedex",
 			callback:    commandExit,
-			config:      *config,
 		},
 		"help": {
 			name:        "help",
 			description: "Gives description of all commands",
 			callback:    describeCommands,
-			config:      *config,
 		},
 		"map": {
 			name:        "map",
 			description: "displays the names of 20 location areas in the Pokemon world",
 			callback:    mapLookUp,
-			config:      *config,
 		},
 	}
 }
