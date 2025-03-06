@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func describeCommands() error {
+func describeCommands(c *config) error {
 	fmt.Println("Welcome to the Pokedex!")
 	fmt.Println("Usage:")
 	fmt.Println()

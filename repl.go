@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"net/http"
 	"os"
 	"strings"
 )
@@ -12,14 +13,16 @@ func cleanInput(text string) []string {
 	return mySlice
 }
 
+/*
 func getUrl(config *config) string {
 	return ""
 }
+*/
 
 type cliCommand struct {
 	name        string
 	description string
-	callback    func() error
+	callback    func(c *config) error
 }
 
 /*
@@ -30,6 +33,7 @@ type Location struct {
 */
 
 type config struct {
+	httpClient       http.Client
 	nextLocation     *string
 	previousLocation *string
 }
@@ -61,7 +65,7 @@ func init() {
 	}
 }
 
-func repl() {
+func repl(c *config) {
 	myScanner := bufio.NewScanner(os.Stdin)
 	for {
 		if myScanner.Scan() {
@@ -69,7 +73,7 @@ func repl() {
 			input := cleanInput(myScanner.Text())
 			val, ok := commandMap[input[0]]
 			if ok {
-				fmt.Printf("%v", val.callback())
+				fmt.Printf("%v", val.callback(c))
 			} else {
 				fmt.Println("Unknown command")
 			}
