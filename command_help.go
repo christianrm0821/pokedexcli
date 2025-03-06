@@ -9,5 +9,5 @@ func describeCommands() error {
 	for key, val := range commandMap {
 		fmt.Printf("%v: %v\n", key, val.description)
 	}
-	return fmt.Errorf("")
+	return nil
 }
