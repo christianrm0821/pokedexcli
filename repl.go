@@ -3,9 +3,10 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"net/http"
 	"os"
 	"strings"
+
+	"github.com/christianrm0821/pokedexcli/internal/pokeapi"
 )
 
 func cleanInput(text string) []string {
@@ -13,34 +14,21 @@ func cleanInput(text string) []string {
 	return mySlice
 }
 
-/*
-func getUrl(config *config) string {
-	return ""
-}
-*/
-
 type cliCommand struct {
 	name        string
 	description string
 	callback    func(c *config) error
 }
 
-/*
-type Location struct {
-	Name string
-	URL  string
-}
-*/
-
 type config struct {
-	httpClient       http.Client
-	nextLocation     *string
-	previousLocation *string
+	PokeClient       pokeapi.Client
+	NextLocation     *string
+	PreviousLocation *string
 }
 
 var commandMap map[string]cliCommand
 
-func init() {
+func GetCommands() map[string]cliCommand {
 	commandMap = map[string]cliCommand{
 		"exit": {
 			name:        "exit",
@@ -63,15 +51,18 @@ func init() {
 			callback:    mapbLookup,
 		},
 	}
+	return commandMap
 }
 
 func repl(c *config) {
+	fmt.Print("Pokedex > ")
 	myScanner := bufio.NewScanner(os.Stdin)
 	for {
 		if myScanner.Scan() {
 			fmt.Print("Pokedex > ")
 			input := cleanInput(myScanner.Text())
-			val, ok := commandMap[input[0]]
+			mymap := GetCommands()
+			val, ok := mymap[input[0]]
 			if ok {
 				fmt.Printf("%v", val.callback(c))
 			} else {

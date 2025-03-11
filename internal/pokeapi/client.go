@@ -9,7 +9,6 @@ type Client struct {
 	httpClient http.Client
 }
 
-// NewClient -
 func NewClient(timeout time.Duration) Client {
 	myClient := Client{
 		httpClient: http.Client{

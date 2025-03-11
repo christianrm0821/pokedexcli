@@ -6,8 +6,8 @@ import (
 	"net/http"
 )
 
-func (myClient *Client) location_list(url *string) (ResponseStruct, error) {
-	myurl := baseURL + "location-area/"
+func (myClient *Client) Location_list(url *string) (ResponseStruct, error) {
+	myurl := baseURL + "/location-area"
 	if url != nil {
 		myurl = *url
 	}
