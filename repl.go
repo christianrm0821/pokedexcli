@@ -55,18 +55,25 @@ func GetCommands() map[string]cliCommand {
 }
 
 func repl(c *config) {
-	fmt.Print("Pokedex > ")
 	myScanner := bufio.NewScanner(os.Stdin)
+	fmt.Print("Pokedex > ")
 	for {
 		if myScanner.Scan() {
 			fmt.Print("Pokedex > ")
 			input := cleanInput(myScanner.Text())
 			mymap := GetCommands()
+			if len(input) == 0 {
+				fmt.Println("You must enter a command")
+				fmt.Print("Pokedex > ")
+				continue
+			}
 			val, ok := mymap[input[0]]
 			if ok {
-				fmt.Printf("%v", val.callback(c))
+				val.callback(c)
+				fmt.Print("Pokedex > ")
 			} else {
 				fmt.Println("Unknown command")
+				fmt.Print("Pokedex > ")
 			}
 		}
 
