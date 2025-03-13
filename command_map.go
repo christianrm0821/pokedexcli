@@ -10,8 +10,9 @@ func mapLookUp(c *config) error {
 	curr := (*c).NextLocation
 	(*c).NextLocation = &res.Next
 	(*c).PreviousLocation = curr
+	fmt.Println()
 	for i := 0; i < 20; i++ {
-		fmt.Printf("%v", res.Results[i].Name)
+		fmt.Printf("%v. %v", i+1, res.Results[i].Name)
 		fmt.Println()
 	}
 	return nil
@@ -27,7 +28,7 @@ func mapbLookup(c *config) error {
 		return err
 	}
 	for i := 0; i < 20; i++ {
-		fmt.Printf("%v", res.Results[i].Name)
+		fmt.Printf("%v. %v", i+1, res.Results[i].Name)
 		fmt.Println()
 	}
 	c.NextLocation = &res.Next
