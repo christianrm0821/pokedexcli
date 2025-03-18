@@ -57,7 +57,6 @@ func mapbLookup(c *config) error {
 		c.Cache.Add(*c.PreviousLocation, *tmp)
 		data = *tmp
 	}
-
 	err = json.Unmarshal(data, &res)
 	if err != nil {
 		return err
