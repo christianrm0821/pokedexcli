@@ -1,26 +1,26 @@
 package pokeapi
 
 import (
-	"encoding/json"
+	//	"encoding/json"
 	"io"
 	"net/http"
 )
 
-func (myClient *Client) Location_list(url *string) (ResponseStruct, error) {
+func (myClient *Client) Location_list(url *string) (*[]byte, error) {
 	myurl := baseURL + "/location-area"
 	if url != nil {
 		myurl = *url
 	}
-	var myResponse ResponseStruct
+	//var myResponse ResponseStruct
 
 	req, err := http.NewRequest("GET", myurl, nil)
 	if err != nil {
-		return myResponse, err
+		return nil, err
 	}
 
 	res, err := (*myClient).httpClient.Do(req)
 	if err != nil {
-		return myResponse, err
+		return nil, err
 	}
 
 	defer res.Body.Close()
@@ -28,12 +28,14 @@ func (myClient *Client) Location_list(url *string) (ResponseStruct, error) {
 	data, err := io.ReadAll(res.Body)
 
 	if err != nil {
-		return myResponse, err
+		return nil, err
 	}
-
-	err = json.Unmarshal(data, &myResponse)
-	if err != nil {
+	return &data, nil
+	/*
+		err = json.Unmarshal(data, &myResponse)
+		if err != nil {
+			return myResponse, nil
+		}
 		return myResponse, nil
-	}
-	return myResponse, nil
+	*/
 }

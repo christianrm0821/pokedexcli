@@ -30,6 +30,7 @@ func (c CacheStruct) Add(key string, val []byte) {
 func (c CacheStruct) Get(key string) ([]byte, bool) {
 	c.Mu.Lock()
 	defer c.Mu.Unlock()
+
 	val, ok := c.Cache[key]
 	if !ok {
 		return nil, false
