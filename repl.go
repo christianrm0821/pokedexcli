@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/christianrm0821/pokedexcli/internal/pokeapi"
+	"github.com/christianrm0821/pokedexcli/internal/pokecache"
 )
 
 func cleanInput(text string) []string {
@@ -24,6 +25,7 @@ type config struct {
 	PokeClient       pokeapi.Client
 	NextLocation     *string
 	PreviousLocation *string
+	Cache            pokecache.CacheStruct
 }
 
 var commandMap map[string]cliCommand

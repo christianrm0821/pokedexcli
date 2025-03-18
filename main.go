@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/christianrm0821/pokedexcli/internal/pokeapi"
+	"github.com/christianrm0821/pokedexcli/internal/pokecache"
 )
 
 func main() {
@@ -11,6 +12,7 @@ func main() {
 		PokeClient:       pokeapi.NewClient(10 * time.Second),
 		NextLocation:     nil,
 		PreviousLocation: nil,
+		Cache:            pokecache.NewCache(10 * time.Second),
 	}
 	repl(&c)
 }
