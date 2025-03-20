@@ -1,5 +1,7 @@
 package main
 
+///Need to fix the explore might need to start over but we will see
+
 import (
 	"time"
 
@@ -13,6 +15,8 @@ func main() {
 		NextLocation:     nil,
 		PreviousLocation: nil,
 		Cache:            pokecache.NewCache(10 * time.Second),
+		City:             nil,
+		Area:             nil,
 	}
 	repl(&c)
 }

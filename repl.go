@@ -26,6 +26,12 @@ type config struct {
 	NextLocation     *string
 	PreviousLocation *string
 	Cache            pokecache.CacheStruct
+	City             *string
+	Area             *string
+}
+type Pokemon struct {
+	Name string
+	URL  string
 }
 
 var commandMap map[string]cliCommand
@@ -52,6 +58,16 @@ func GetCommands() map[string]cliCommand {
 			description: "displays the names of the previous page's 20 location areas in the Pokemon world",
 			callback:    mapbLookup,
 		},
+		"explore": {
+			name:        "explore",
+			description: "displays the names of pokemon found in the area",
+			callback:    commandExplore,
+		},
+		"explore-city": {
+			name:        "explore-city",
+			description: "displays the names of pokemon found in the city(must be a city name)",
+			callback:    commandExploreCity,
+		},
 	}
 	return commandMap
 }
@@ -71,6 +87,24 @@ func repl(c *config) {
 			}
 			val, ok := mymap[input[0]]
 			if ok {
+				if input[0] == "explore" {
+					if len(input) == 1 {
+						fmt.Println("need to input a area")
+						fmt.Print("Pokedex > ")
+						continue
+					}
+					c.Area = &input[1]
+				}
+
+				if input[0] == "explore-city" {
+					if len(input) == 1 {
+						fmt.Println("need to input a city")
+						fmt.Print("Pokedex > ")
+						continue
+					}
+					c.City = &input[1]
+				}
+
 				val.callback(c)
 				fmt.Print("Pokedex > ")
 			} else {
