@@ -11,11 +11,12 @@ func commandExplore(c *config) error {
 	myurl := "https://pokeapi.co/api/v2/location-area/" + *(c.Area)
 	var err error
 	data, tmp := c.Cache.Get(myurl)
-	if tmp == false {
+	if !tmp {
 		data, err = Explore.GetPokemonArea(*(c.Area))
 		if err != nil {
 			return err
 		}
+		c.Cache.Add(myurl, data)
 	}
 	var myArea Explore.LocationArea
 	var myPokemon []string
