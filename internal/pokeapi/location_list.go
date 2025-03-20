@@ -1,7 +1,6 @@
 package pokeapi
 
 import (
-	//	"encoding/json"
 	"io"
 	"net/http"
 )
@@ -11,7 +10,6 @@ func (myClient *Client) Location_list(url *string) (*[]byte, error) {
 	if url != nil {
 		myurl = *url
 	}
-	//var myResponse ResponseStruct
 
 	req, err := http.NewRequest("GET", myurl, nil)
 	if err != nil {
@@ -31,11 +29,4 @@ func (myClient *Client) Location_list(url *string) (*[]byte, error) {
 		return nil, err
 	}
 	return &data, nil
-	/*
-		err = json.Unmarshal(data, &myResponse)
-		if err != nil {
-			return myResponse, nil
-		}
-		return myResponse, nil
-	*/
 }

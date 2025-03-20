@@ -71,9 +71,10 @@ func GetPokemonCity(city string) ([]string, error) {
 		}
 	}
 	return pokemon, nil
+
 }
 
-func GetPokemonArea(area string) ([]string, error) {
+func GetPokemonArea(area string) ([]byte, error) {
 	myurl := baseURL + "location-area/" + area
 	res, err := http.Get(myurl)
 	if err != nil {
@@ -87,18 +88,24 @@ func GetPokemonArea(area string) ([]string, error) {
 	}
 
 	data, err := io.ReadAll(res.Body)
-	if err != nil {
-		return nil, err
-	}
 
-	var myArea LocationArea
-	var myPokemon []string
-	err = json.Unmarshal(data, &myArea)
 	if err != nil {
 		return nil, err
 	}
-	for _, val := range myArea.PokemonEncounters {
-		myPokemon = append(myPokemon, val.Pokemon.Name)
-	}
-	return myPokemon, nil
+	return data, nil
+	/*
+	   var myArea LocationArea
+	   var myPokemon []string
+	   err = json.Unmarshal(data, &myArea)
+
+	   	if err != nil {
+	   		return nil, err
+	   	}
+
+	   	for _, val := range myArea.PokemonEncounters {
+	   		myPokemon = append(myPokemon, val.Pokemon.Name)
+	   	}
+
+	   return myPokemon, nil
+	*/
 }
