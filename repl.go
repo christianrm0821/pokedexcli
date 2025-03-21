@@ -28,10 +28,8 @@ type config struct {
 	Cache            pokecache.CacheStruct
 	City             *string
 	Area             *string
-}
-type Pokemon struct {
-	Name string
-	URL  string
+	Pokedex          map[string][]byte
+	Pokemon          *string
 }
 
 var commandMap map[string]cliCommand
@@ -67,6 +65,21 @@ func GetCommands() map[string]cliCommand {
 			name:        "explore-city",
 			description: "displays the names of pokemon found in the city(must be a city name)",
 			callback:    commandExploreCity,
+		},
+		"catch": {
+			name:        "catch",
+			description: "attempt to catch a pokemon, must enter the pokemon's name after the command e.g. catch pikachu",
+			callback:    commandCatch,
+		},
+		"inspect": {
+			name:        "inspect",
+			description: "gives details about the pokemon you want to inspect(name pokemon after inspect command e.g. inspect pikachu)",
+			callback:    commandInspect,
+		},
+		"pokedex": {
+			name:        "pokedex",
+			description: "names all the pokemon you have caught",
+			callback:    commandPokedex,
 		},
 	}
 	return commandMap
@@ -105,6 +118,23 @@ func repl(c *config) {
 					c.City = &input[1]
 				}
 
+				if input[0] == "catch" {
+					if len(input) == 1 {
+						fmt.Println("need to name a pokemon to catch")
+						fmt.Print("Pokedex > ")
+						continue
+					}
+					c.Pokemon = &input[1]
+
+				}
+				if input[0] == "inspect" {
+					if len(input) == 1 {
+						fmt.Println("need to name a pokemon to inspect")
+						fmt.Print("Pokedex > ")
+						continue
+					}
+					c.Pokemon = &input[1]
+				}
 				val.callback(c)
 				fmt.Print("Pokedex > ")
 			} else {

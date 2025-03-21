@@ -17,6 +17,8 @@ func main() {
 		Cache:            pokecache.NewCache(10 * time.Second),
 		City:             nil,
 		Area:             nil,
+		Pokedex:          make(map[string][]byte),
+		Pokemon:          nil,
 	}
 	repl(&c)
 }
