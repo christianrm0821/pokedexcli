@@ -9,7 +9,7 @@ import (
 )
 
 func commandCatch(c *config) error {
-	fmt.Printf("Throwing a Pokeball at %v", *(c.Pokemon))
+	fmt.Printf("Throwing a Pokeball at %v...", *(c.Pokemon))
 	fmt.Println()
 	pokeData, err := pokemon.PokemonData(*c.Pokemon)
 	if err != nil {
