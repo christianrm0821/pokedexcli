@@ -31,16 +31,25 @@ fmt, os, bufio, strings, time, math/rand – for CLI interaction and caching
 
 ## 💡 Available Commands
 
-Command	Description
+#Command	Description
 help	Lists and describes all available commands
+
 exit	Exits the application
+
 map	Displays the next 20 Pokémon location areas
+
 mapb	Displays the previous 20 Pokémon location areas
+
 explore	Lists the Pokémon found in a selected area
+
 explore-city	Lists Pokémon found in a given city (requires city name)
+
 catch <name>	Attempts to catch the specified Pokémon
+
 inspect <name>	Shows detailed information about a caught Pokémon
+
 pokedex	Lists all Pokémon you have successfully caught
+
 ## ⚠️ Limitations & Notes
 Requires valid area/city names as input for some commands
 
